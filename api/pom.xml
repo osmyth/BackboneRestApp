@@ -12,8 +12,7 @@
     <name>api</name>
 
     <properties>
-        <!--<spring.version>4.0.1.RELEASE</spring.version>-->
-        <spring.version>3.0.3.RELEASE</spring.version>
+        <spring.version>4.0.1.RELEASE</spring.version>
     </properties>
     <dependencies>
         <dependency>
