@@ -2,6 +2,7 @@ package com.backbonerestapp.api.controller;
 
 import com.backbonerestapp.api.dao.GenericDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,9 +17,18 @@ public class APIController {
     @Autowired
     private GenericDao genericDao;
 
+    @Autowired
+    private org.springframework.cache.CacheManager cacheManager;
+
     @RequestMapping(value = "/customer", method = RequestMethod.GET)
     @ResponseBody
     public String getCustomer() {
-        return genericDao.getCustomer(0);
+        System.out.println("================== getCustomer =================");
+
+        //EhCacheManagerFactoryBean ehCacheMgr = (EhCacheManagerFactoryBean) cacheManager;
+
+        Cache cache = cacheManager.getCache("customerCache");
+
+        return genericDao.getCustomer(2);
     }
 }
