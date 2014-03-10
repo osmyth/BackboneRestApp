@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+    <defaultCache eternal="true" maxElementsInMemory="100" overflowToDisk="false" />
+    <cache name="customerCache" maxElementsInMemory="10" timeToLiveSeconds="600" eternal="true" overflowToDisk="false">
+        <cacheLoaderFactory class="com.backbonerestapp.api.cache.CustomerCacheLoaderFactory"/>
+    </cache>
+</ehcache>

@@ -1,50 +1,47 @@
 package com.backbonerestapp.api.controller;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(classes = {TestContext.class, WebAppContext.class})
-//@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration("classpath:test-spring-configuration.xml")
 public class APIControllerTest {
 
     private MockMvc mockMvc;
 
-    //Add WebApplicationContext field here.
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-    //The setUp() method is omitted.
+    @Before
+    public void testInit() {
+        assertTrue("Application Context Not Set", webApplicationContext != null);
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        assertTrue("mockMvc Not Set", mockMvc != null);
+    }
 
     @Test
-    public void findAll_TodosFound_ShouldReturnFoundTodoEntries() throws Exception {
+    public void testGetUnknownApplicationAttributeSettings() throws Exception {
+        MvcResult readResponse = mockMvc.perform(get("/customer")
+                .param("id", "8")
+                .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk()).andReturn();
 
-
-//        when(todoServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
-//
-//        mockMvc.perform(get("/api/todo"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
-//                .andExpect(jsonPath("$", hasSize(2)))
-//                .andExpect(jsonPath("$[0].id", is(1)))
-//                .andExpect(jsonPath("$[0].description", is("Lorem ipsum")))
-//                .andExpect(jsonPath("$[0].title", is("Foo")))
-//                .andExpect(jsonPath("$[1].id", is(2)))
-//                .andExpect(jsonPath("$[1].description", is("Lorem ipsum")))
-//                .andExpect(jsonPath("$[1].title", is("Bar")));
-//
-//        verify(todoServiceMock, times(1)).findAll();
-//        verifyNoMoreInteractions(todoServiceMock);
+        assertEquals("John Doe 8", readResponse.getResponse().getContentAsString());
     }
 }
