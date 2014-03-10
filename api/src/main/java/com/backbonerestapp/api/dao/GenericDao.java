@@ -11,9 +11,14 @@ public class GenericDao {
     private final Logger LOGGER = LoggerFactory.getLogger(GenericDao.class);
 
     @Cacheable(cacheName = "customerCache", keyGeneratorName="cacheKeyGenerator")
-    public String getCustomer(int id) {
-        String customerName = "John Doe";
+    public String getCustomer(int id){
+        String customerName = "John Doe " + id;
         LOGGER.info("Getting data from DB: " + id + " - " + customerName);
+
+        if(id > 20) {
+            return null;
+        }
+
         return customerName;
     }
 

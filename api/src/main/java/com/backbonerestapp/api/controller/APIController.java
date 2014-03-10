@@ -31,6 +31,9 @@ public class APIController {
     public String getCustomer(int id) {
         LOGGER.info("Processing request for /customer...");
         String customer = genericDao.getCustomer(id);
+        if(customer == null) {
+            customer = "Not Found";
+        }
 
         CacheManager myCacheManager = cacheManager.getObject();
         Cache customerCache = myCacheManager.getCache("customerCache");

@@ -36,12 +36,22 @@ public class APIControllerTest {
     }
 
     @Test
-    public void testGetUnknownApplicationAttributeSettings() throws Exception {
+    public void testGetCustomer() throws Exception {
         MvcResult readResponse = mockMvc.perform(get("/customer")
                 .param("id", "8")
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk()).andReturn();
 
         assertEquals("John Doe 8", readResponse.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void testGetCustomerNotFound() throws Exception {
+        MvcResult readResponse = mockMvc.perform(get("/customer")
+                .param("id", "22")
+                .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk()).andReturn();
+
+        assertEquals("Not Found", readResponse.getResponse().getContentAsString());
     }
 }
