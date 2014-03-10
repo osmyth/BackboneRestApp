@@ -10,7 +10,12 @@ import net.sf.ehcache.bootstrap.BootstrapCacheLoaderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.JdbcUtils;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class MyBootstrapCacheLoaderFactory extends BootstrapCacheLoaderFactory implements BootstrapCacheLoader {
@@ -20,6 +25,9 @@ public class MyBootstrapCacheLoaderFactory extends BootstrapCacheLoaderFactory i
     @Autowired
     private CacheKeyGenerator cacheKeyGenerator;
 
+    @Autowired
+    private DataSource dataSource;
+
     public MyBootstrapCacheLoaderFactory createBootstrapCacheLoader(Properties properties) {
         return new MyBootstrapCacheLoaderFactory();
     }
@@ -28,8 +36,28 @@ public class MyBootstrapCacheLoaderFactory extends BootstrapCacheLoaderFactory i
         Cache cache = ehCache.getCacheManager().getCache("customerCache");
 
         LOGGER.info("Initialising " + cache.getName() + "...");
-        for(int i = 0; i < 10; i ++ ) {
-            cache.put(new Element(cacheKeyGenerator.generateKey(i), "John Doe "+i), true);
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultset = null;
+
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
+            resultset = statement.executeQuery("select * from customers");
+
+            while(resultset.next()) {
+                int customerId = resultset.getInt("customer_id");
+                String customerName = resultset.getString("customer_name");
+                cache.put(new Element(cacheKeyGenerator.generateKey(customerId), customerName), true);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Error accessing the database", e);
+        } finally {
+            JdbcUtils.closeConnection(connection);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeResultSet(resultset);
         }
         LOGGER.info("Cache Initialised! "+cache.getSize());
     }
