@@ -1,15 +1,21 @@
-package com.backbonerestapp.api.cacheloaders;
+package com.backbonerestapp.api.cache;
 
+import com.googlecode.ehcache.annotations.key.CacheKeyGenerator;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.Status;
 import net.sf.ehcache.loader.CacheLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Properties;
 
 public class CustomerCacheLoader implements CacheLoader {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomerCacheLoader.class);
 
     private Ehcache cache;
 
@@ -42,15 +48,13 @@ public class CustomerCacheLoader implements CacheLoader {
     }
 
     public void init() {
-        System.out.println("Init Cache ===============================");
-        cache.put(new Element(0, "John Doe 0"), true);
-        cache.put(new Element(1, "John Doe 1"), true);
-        cache.put(new Element(2, "John Doe 2"), true);
-        cache.put(new Element(3, "John Doe 3"), true);
-        cache.put(new Element(4, "John Doe 4"), true);
-        cache.put(new Element(5, "John Doe 5"), true);
-        cache.put(new Element(6, "John Doe 6"), true);
-        cache.put(new Element(7, "John Doe 7"), true);
+        CacheKeyGenerator cacheKeyGenerator = new SimpleCacheKeyGenerator();
+
+        LOGGER.info("Initialising " + cache.getName() + "...");
+        for(int i = 0; i < 10; i ++ ) {
+            cache.put(new Element(cacheKeyGenerator.generateKey(i), "John Doe "+i), true);
+        }
+        LOGGER.info("Cache Initialised! " + cache.getSize());
     }
 
     public void dispose() throws net.sf.ehcache.CacheException {}

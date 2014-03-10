@@ -1,15 +1,20 @@
 package com.backbonerestapp.api.dao;
 
 import com.googlecode.ehcache.annotations.Cacheable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GenericDao {
 
-    @Cacheable(cacheName = "customerCache")
+    private final Logger LOGGER = LoggerFactory.getLogger(GenericDao.class);
+
+    @Cacheable(cacheName = "customerCache", keyGeneratorName="cacheKeyGenerator")
     public String getCustomer(int id) {
-        System.out.println("============= getting from DB ===============");
-        return "John Doe";
+        String customerName = "John Doe";
+        LOGGER.info("Getting data from DB: " + id + " - " + customerName);
+        return customerName;
     }
 
 }
