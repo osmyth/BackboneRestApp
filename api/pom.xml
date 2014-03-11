@@ -85,7 +85,11 @@
             <artifactId>persistence-api</artifactId>
             <version>1.0-rev-1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.arantech.touchpoint</groupId>
+            <artifactId>touchpoint-common</artifactId>
+            <version>main</version>
+        </dependency>
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.hamcrest</groupId>

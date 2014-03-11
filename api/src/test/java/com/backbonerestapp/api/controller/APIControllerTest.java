@@ -38,17 +38,17 @@ public class APIControllerTest {
     @Test
     public void testGetCustomer() throws Exception {
         MvcResult readResponse = mockMvc.perform(get("/customer")
-                .param("id", "8")
+                .param("imsi", "100000000000001")
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk()).andReturn();
 
-        assertEquals("John Doe 8", readResponse.getResponse().getContentAsString());
+        assertEquals("Test", readResponse.getResponse().getContentAsString());
     }
 
     @Test
     public void testGetCustomerNotFound() throws Exception {
         MvcResult readResponse = mockMvc.perform(get("/customer")
-                .param("id", "22")
+                .param("imsi", "22")
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk()).andReturn();
 

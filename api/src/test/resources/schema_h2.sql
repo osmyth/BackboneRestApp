@@ -1,15 +1,15 @@
---CREATE TABLE customers
---(
---    customer_id int,
---    customer_name varchar(255)
---);
+--CREATE TABLE IMSI_MAPPING (
+--  imsi_id          NUMBER(15)    NOT NULL ,
+--  msisdn           VARCHAR2(128)  NOT NULL ,
+--  subscriber_name  VARCHAR2(256) ,
+--  category_id      NUMBER(10)   ,
+--  last_updated     NUMBER(38)    NOT NULL ,
+--  user_label       VARCHAR2(256) ,
+--  can_be_dropped   NUMBER(1)     NOT NULL ,
+--  deleted_flag     NUMBER(1)     DEFAULT 0 NOT NULL ,
+--  creation_date    NUMBER(38)    NOT NULL ,
+--  restricted_access NUMBER(1)    DEFAULT 0 NOT NULL
+--)
 
-INSERT INTO customers (customer_id, customer_name) VALUES (0, 'John Doe 0');
-INSERT INTO customers (customer_id, customer_name) VALUES (1, 'John Doe 1');
-INSERT INTO customers (customer_id, customer_name) VALUES (2, 'John Doe 2');
-INSERT INTO customers (customer_id, customer_name) VALUES (3, 'John Doe 3');
-INSERT INTO customers (customer_id, customer_name) VALUES (4, 'John Doe 4');
-INSERT INTO customers (customer_id, customer_name) VALUES (5, 'John Doe 5');
-INSERT INTO customers (customer_id, customer_name) VALUES (6, 'John Doe 6');
-INSERT INTO customers (customer_id, customer_name) VALUES (7, 'John Doe 7');
-INSERT INTO customers (customer_id, customer_name) VALUES (8, 'John Doe 8');
+Insert into IMSI_MAPPING (IMSI_ID,        MSISDN,  SUBSCRIBER_NAME,  CATEGORY_ID, LAST_UPDATED, USER_LABEL, RESTRICTED_ACCESS, DROP_ALLOWED, PROVISIONED)
+values (                  100000000000001,'100000','Test',           0,           0,            'Test',     0,                 0,            0);

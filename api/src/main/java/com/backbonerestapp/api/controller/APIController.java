@@ -1,8 +1,7 @@
 package com.backbonerestapp.api.controller;
 
 import com.backbonerestapp.api.dao.CustomerDao;
-import com.backbonerestapp.api.dao.GenericDao;
-import com.backbonerestapp.api.model.Customer;
+import com.backbonerestapp.api.model.User;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
@@ -22,9 +21,6 @@ public class APIController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(APIController.class);
 
-//    @Autowired
-//    private GenericDao genericDao;
-
     @Autowired
     private CustomerDao customerDao;
 
@@ -33,10 +29,10 @@ public class APIController {
 
     @RequestMapping(value = "/customer", method = RequestMethod.GET)
     @ResponseBody
-    public String findCustomer(int id) {
+    public String findUser(String imsi) {
         LOGGER.info("Processing request for /customer...");
 
-        Customer customer = customerDao.findCustomer(id);
+        User user = customerDao.findUser(imsi);
 
         CacheManager myCacheManager = cacheManager.getObject();
         Cache customerCache = myCacheManager.getCache("customerCache");
@@ -45,6 +41,6 @@ public class APIController {
             LOGGER.info("Key: "+key+" Value: "+customerCache.get(key));
         }
 
-        return customer != null ? customer.getName() : "Not Found";
+        return user != null ? user.getUserLabel() : "Not Found";
     }
 }

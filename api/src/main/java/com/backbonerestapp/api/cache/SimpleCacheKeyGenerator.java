@@ -15,9 +15,11 @@ public class SimpleCacheKeyGenerator implements CacheKeyGenerator<Serializable> 
     @Override
     public Serializable generateKey(final Object... arg0) {
         int key = 0;
-        if(arg0.length == 1){
-            key = (Integer) arg0[0];
+
+        for (int i = 0; i < arg0.length; i++) {
+            key += arg0[i].hashCode();
         }
+
         return key;
     }
 }

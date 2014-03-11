@@ -1,4 +1,4 @@
-package com.backbonerestapp.api.cache;
+package com.backbonerestapp.api.cache.cacheloaders;
 
 import net.sf.ehcache.*;
 import net.sf.ehcache.loader.CacheLoader;

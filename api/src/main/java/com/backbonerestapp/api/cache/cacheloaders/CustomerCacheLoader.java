@@ -1,5 +1,6 @@
-package com.backbonerestapp.api.cache;
+package com.backbonerestapp.api.cache.cacheloaders;
 
+import com.backbonerestapp.api.cache.SimpleCacheKeyGenerator;
 import com.googlecode.ehcache.annotations.key.CacheKeyGenerator;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
