@@ -1,5 +1,6 @@
 package com.backbonerestapp.api.cache;
 
+import com.backbonerestapp.api.model.Customer;
 import com.googlecode.ehcache.annotations.key.CacheKeyGenerator;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
@@ -49,7 +50,9 @@ public class MyBootstrapCacheLoaderFactory extends BootstrapCacheLoaderFactory i
             while(resultset.next()) {
                 int customerId = resultset.getInt("customer_id");
                 String customerName = resultset.getString("customer_name");
-                cache.put(new Element(cacheKeyGenerator.generateKey(customerId), customerName), true);
+
+                Customer customer = new Customer(customerId, customerName);
+                cache.put(new Element(cacheKeyGenerator.generateKey(customerId), customer), true);
             }
 
         } catch (Exception e) {

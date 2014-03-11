@@ -1,8 +1,8 @@
-CREATE TABLE customers
-(
-    customer_id int,
-    customer_name varchar(255)
-);
+--CREATE TABLE customers
+--(
+--    customer_id int,
+--    customer_name varchar(255)
+--);
 
 INSERT INTO customers (customer_id, customer_name) VALUES (0, 'John Doe 0');
 INSERT INTO customers (customer_id, customer_name) VALUES (1, 'John Doe 1');

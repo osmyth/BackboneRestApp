@@ -4,31 +4,12 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
         http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-        <property name="driverClass" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:test;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
-        <property name="username" value="sa"/>
-        <property name="password" value=""/>
-    </bean>
-
-    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
-        <jdbc:script location="/WEB-INF/schema_h2.sql"/>
-    </jdbc:initialize-database>
-
-    <!--provides a H2 console to look into the db if necessary -->
-    <!--<bean id="org.h2.tools.Server-WebServer" class="org.h2.tools.Server"-->
-    <!--factory-method="createWebServer"-->
-    <!--depends-on="dataSource"-->
-    <!--init-method="start" lazy-init="false">-->
-    <!--<constructor-arg value="-web,-webPort,11111" />-->
-    <!--</bean>-->
+    <import resource="test-spring-persistence.xml" />
 
     <ehcache:annotation-driven/>
 
@@ -37,7 +18,7 @@
     </ehcache:config>
 
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="/WEB-INF/ehcache.xml"/>
+        <property name="configLocation" value="WEB-INF/ehcache.xml"/>
     </bean>
 
     <bean id="ehCacheFactory" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
